@@ -1,7 +1,7 @@
 const UserModel = require("../models/user")
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-
+const bcrypt = require("bcryptjs")
 const signup_form_get = (req,res) =>{
     res.render("sign-up-form",{
         title: "Sign up form"
@@ -18,23 +18,25 @@ const signup_form_post = [
     body("membership_status", "Empty membership status").trim().isLength({ min: 1 }).escape(),
     asyncHandler( async (req, res) => {
         const errors = validationResult(req);
-        const user = new UserModel({
-            first_name: req.body.name,
-            last_name: req.body.last_name,
-            username: req.body.username,
-            password: req.body.password,
-            membership_status: req.body.membership_status
-        })
-        if (!errors.isEmpty()) {
-            res.render("sign-up-form",{
-                title: "Sign up form",
-                user,
-                errors:errors.array()
+        bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+            const user = new UserModel({
+                first_name: req.body.name,
+                last_name: req.body.last_name,
+                username: req.body.username,
+                password: hashedPassword,
+                membership_status: req.body.membership_status
             })
-        } else {
-            await user.save();
-            res.redirect("/")
-        }
+            if (!errors.isEmpty()) {
+                res.render("sign-up-form",{
+                    title: "Sign up form",
+                    user,
+                    errors:errors.array()
+                })
+            } else {
+                await user.save();
+                res.redirect("/")
+            }
+        })
 }) 
 ]
 

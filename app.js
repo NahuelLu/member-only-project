@@ -9,6 +9,12 @@ const indexRouter = require('./routes/index');
 const signupRouter = require('./routes/signupRouter');
 const mongoose = require("mongoose");
 const app = express();
+//Packages required to authentication 
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("./models/user")
+const bcrypt = require("bcryptjs")
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,10 +32,75 @@ async function main() {
 
 app.use(logger('dev'));
 app.use(express.json());
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      };
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        // passwords do not match!
+        return done(null, false, { message: "Incorrect password" })
+      }
+      return done(null, user);
+    } catch(err) {
+      return done(err);
+    };
+  })
+)
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+})
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch(err) {
+    done(err);
+  };
+})
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+})
 
+app.post(
+  "/log-in",
+  passport.authenticate("local", {
+    successRedirect: "/welcome",
+    failureRedirect: "/"
+  })
+)
+app.get("/log-in",(req,res) => {
+  res.render("log-in-form",{
+    title: "Login form "
+  })
+})
+app.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+})
+app.get("/welcome", (req,res) => {
+  res.render("welcome",{
+    title: "Welcome"
+  })
+})
 app.use('/', indexRouter);
 app.use("/sign-up", signupRouter)
 // catch 404 and forward to error handler
