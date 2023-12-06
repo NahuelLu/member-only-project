@@ -6,15 +6,17 @@ block content
     form(method='POST' action='')
         div.form-group
             label(for='name') Name:
-            input#name.form-control(type='text' placeholder='name' name='name' required='true')
+            input#name.form-control(type='text' placeholder='name' name='name' required='true' value=(undefined===user ? '' : user.first_name ))
             label(for='last_name') Last Name:
-            input#last_name.form-control(type='text' placeholder='last_name' name='last_name' required='true')
+            input#last_name.form-control(type='text' placeholder='last_name' name='last_name' required='true' value=(undefined===user ? '' : user.last_name ))
             label(for='username') User Name:
-            input#username.form-control(type='text' placeholder='username' name='username' required='true')
+            input#username.form-control(type='text' placeholder='username' name='username' required='true' value=(undefined===user ? '' : user.username )) 
             label(for='password') Password:
             input#password.form-control(type='password' placeholder='password' name='password' required='true')
+            label(for='confirm_password') Confirm Password:
+            input#confirm_password.form-control(type='password' placeholder='confirm_password' name='confirm_password' required='true')
             label(for='membership_status') Membership Status:
-            input#membership_status.form-control(type='text' placeholder='membership_status' name='membership_status' required='true')
+            input#membership_status.form-control(type='text' placeholder='membership_status' name='membership_status' required='true' value=(undefined===user ? '' : user.membership_status ))
 
             button.btn.btn-primary(type='submit') Submit
     if errors
