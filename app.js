@@ -7,13 +7,22 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
-
+const mongoose = require("mongoose");
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+//Connect to MongoDB using mongoose
+mongoose.set("strictQuery", false);
+const mongoDB = process.env.MONGO_DB_KEY
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+  console.log("App was connected sucessfully to MongoDB!")
+}
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
