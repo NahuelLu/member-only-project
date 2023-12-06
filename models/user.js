@@ -5,12 +5,11 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     first_name: {
       type: String,
-      required: true,
+      required: [true, "This value is required to complete"],
       trim: true
     },
     last_name: {
       type: String,
-      required: true,
       trim: true
     },
     username: {
@@ -25,11 +24,7 @@ const UserSchema = new Schema({
     membership_status:{
       type: String,
       required:true
-    },
-    posts: [{ 
-      type: Schema.Types.ObjectId,
-      ref: "posts"
-    }]
+    }
 })
 
 // Compile model from schema

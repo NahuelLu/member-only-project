@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
+    author:{ 
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required:[true, "You must to define an author to create a post!"]
+    },
     title: {
       type: String,
       required: true,
@@ -19,6 +24,6 @@ const PostSchema = new Schema({
 })
 
 // Compile model from schema
-const PostModel = mongoose.model("users", PostSchema);
+const PostModel = mongoose.model("posts", PostSchema);
 
 module.exports = PostModel
