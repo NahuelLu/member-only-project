@@ -1,5 +1,7 @@
 extends layout 
 
 block content 
-    h1= "WELCOME BACK "+ currentUser.username
-    a(href="/log-out") LOG OUT
+    if currentUser
+        h1= "WELCOME BACK "+ currentUser.username
+    else 
+        h2 You are not able to see welcome page until you login, please login or sign up to create an account to login!

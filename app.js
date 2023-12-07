@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const signupRouter = require('./routes/signupRouter');
+const postRouter = require("./routes/postRouter")
 const mongoose = require("mongoose");
 const app = express();
 //Packages required to authentication 
@@ -103,6 +104,7 @@ app.get("/welcome", (req,res) => {
 })
 app.use('/', indexRouter);
 app.use("/sign-up", signupRouter)
+app.use("/post", postRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

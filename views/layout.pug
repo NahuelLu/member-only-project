@@ -10,10 +10,16 @@ html
         ul
           li
             a(href="/") Home
-          li
-            a(href="/sign-up") Sign up
-          li
-            a(href="/log-in") Login
+          if !currentUser 
+            li
+              a(href="/sign-up") Sign up
+            li
+              a(href="/log-in") Login
+          else
+            li
+              a(href="/post/create") Create a new post
+            li
+              a(href="/log-out") Log out
 
     main
       block content
