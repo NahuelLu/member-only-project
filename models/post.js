@@ -1,6 +1,7 @@
 // Define schema
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const {DateTime} = require("luxon")
 
 const PostSchema = new Schema({
     author:{ 
@@ -13,10 +14,7 @@ const PostSchema = new Schema({
       required: true,
       trim: true
     },
-    timestamp:{
-        type:String,
-        required:true
-    },
+    timestamp:{ type: Date, default: Date.now },
     content:{
         type:String,
         required:[true,"You must to write some content to the post!"]
@@ -24,6 +22,13 @@ const PostSchema = new Schema({
 })
 
 // Compile model from schema
+PostSchema.virtual("url").get(function () {
+    return `/post/${this._id}`;
+  });
+PostSchema.virtual("timestamp_formatted").get(function () {
+    return DateTime.fromJSDate(this.timestamp).toLocaleString(DateTime.TIME_WITH_SECONDS);
+});
+
 const PostModel = mongoose.model("posts", PostSchema);
 
 module.exports = PostModel
