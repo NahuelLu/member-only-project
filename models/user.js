@@ -23,10 +23,7 @@ const UserSchema = new Schema({
       required: [true,"Why you didn't type a password, please do it!"],
       minlength: [6, 'Must be at least 6, got {VALUE}']
     },
-    membership_status:{
-      type: String,
-      required:true
-    }
+    membership_status:{type:Boolean, default: false} 
 })
 
 // Compile model from schema

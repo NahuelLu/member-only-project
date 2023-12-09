@@ -15,8 +15,6 @@ block content
             input#password.form-control(type='password' placeholder='password' name='password' required='true')
             label(for='confirm_password') Confirm Password:
             input#confirm_password.form-control(type='password' placeholder='confirm_password' name='confirm_password' required='true')
-            label(for='membership_status') Membership Status:
-            input#membership_status.form-control(type='text' placeholder='membership_status' name='membership_status' required='true' value=(undefined===user ? '' : user.membership_status ))
 
             button.btn.btn-primary(type='submit') Submit
     if errors

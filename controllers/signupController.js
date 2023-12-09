@@ -15,7 +15,6 @@ const signup_form_post = [
     body('confirm_password').custom((value, { req }) => {
         return value === req.body.password;
     }).withMessage("Password are differently, please fix it"),
-    body("membership_status", "Empty membership status").trim().isLength({ min: 1 }).escape(),
     asyncHandler( async (req, res) => {
         const errors = validationResult(req);
         bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
@@ -23,8 +22,7 @@ const signup_form_post = [
                 first_name: req.body.name,
                 last_name: req.body.last_name,
                 username: req.body.username,
-                password: hashedPassword,
-                membership_status: req.body.membership_status
+                password: hashedPassword
             })
             if (!errors.isEmpty()) {
                 res.render("sign-up-form",{
