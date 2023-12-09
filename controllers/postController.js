@@ -32,9 +32,18 @@ const post_create_POST = [
         }
     })
 ]
-const post_details_GET = (req,res) => {
-    res.send("This route/url/endpoint still in development, used to obtain details of one post with GET method")
-}
+
+const post_details_GET = asyncHandler(async (req, res) => {
+    const post = await PostModel.findById(req.params.id).populate("author").exec()
+    const userIsLoggedIn = req.isAuthenticated()
+    if(post === null){
+        const err = new Error("Post not found");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("post-detail",{ userIsLoggedIn, post })
+})
 
 
 const postController = {

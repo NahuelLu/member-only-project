@@ -1,0 +1,10 @@
+extends layout
+block content 
+    .post-container
+      if userIsLoggedIn
+        .post-meta
+          p Created by #{post.author.username}
+          p Timestamp: #{post.timestamp_formatted}
+        h1 #{post.title}
+      .post-content
+        p #{post.content}
