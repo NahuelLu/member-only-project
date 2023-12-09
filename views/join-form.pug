@@ -1,0 +1,11 @@
+extends layout 
+block content 
+    form(method="POST")
+        h3 If you want to join to the club, please write down the secret password
+        label(for="secret_password") Password
+        input(name="secret_password", type="password")
+        button Submit
+    if errors
+        ul
+        for error in errors
+            li!= error.msg
