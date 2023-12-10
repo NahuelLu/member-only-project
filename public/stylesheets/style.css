@@ -150,3 +150,16 @@ h1 {
   margin: 0;
   padding: 0;
 }
+.posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.post{
+  height: 250px;
+  width: 15%;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

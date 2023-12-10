@@ -41,8 +41,19 @@ const post_details_GET = asyncHandler(async (req, res) => {
         err.status = 404;
         return next(err);
     }
-
-    res.render("post-detail",{ userIsLoggedIn, post })
+    if(req.user){
+        res.render("post-detail",{ 
+            userIsLoggedIn, 
+            post,
+            membership_status: req.user.membership_status 
+        })
+    }else{
+        res.render("post-detail",{ 
+            userIsLoggedIn, 
+            post,
+            membership_status: false 
+        })
+    }
 })
 
 
