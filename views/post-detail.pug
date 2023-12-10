@@ -1,7 +1,7 @@
 extends layout
 block content 
     .post-container
-      if userIsLoggedIn
+      if userIsLoggedIn && post.author.membership_status
         .post-meta
           p Created by #{post.author.username}
           p Timestamp: #{post.timestamp_formatted}
