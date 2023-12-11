@@ -1,15 +1,16 @@
 require('dotenv').config()
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const indexRouter = require('./routes/index');
-const signupRouter = require('./routes/signupRouter');
+const createError = require('http-errors')
+const express = require('express')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const indexRouter = require('./routes/index')
+const signupRouter = require('./routes/signupRouter')
 const postRouter = require("./routes/postRouter")
 const joinClubRouter = require("./routes/joinRouter")
-const mongoose = require("mongoose");
+const adminRouter = require("./routes/adminRouter")
+const mongoose = require("mongoose")
 const app = express();
 //Packages required to authentication 
 const session = require("express-session");
@@ -110,6 +111,7 @@ app.use('/', indexRouter);
 app.use("/sign-up", signupRouter)
 app.use("/post", postRouter)
 app.use("/join-club", joinClubRouter)
+app.use("/admin-permission",adminRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

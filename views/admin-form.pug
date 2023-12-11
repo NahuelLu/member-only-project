@@ -1,0 +1,11 @@
+extends layout 
+block content 
+    form(method="POST")
+        h3 If you want to be an admin, please write down the secret password
+        label(for="admin_password") Password
+        input(name="admin_password", type="password")
+        button Submit
+    if errors
+        ul
+        for error in errors
+            li!= error.msg

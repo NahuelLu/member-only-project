@@ -2,7 +2,6 @@ const helpers = require("./helpers/functions")
 const UserModel = require("../models/user")
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-process.env.SECRET_PASSCODE
 const join_club_GET = [
     helpers.checkAuthentication,
     (req,res ) => {
