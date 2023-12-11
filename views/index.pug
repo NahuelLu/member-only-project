@@ -14,3 +14,8 @@ block content
             .post-meta
               p #{post.timestamp_formatted}
               p Created by #{post.author.username}
+  
+          if userIsLoggedIn && isUserAdmin
+            .post-admin-permissions 
+              form(method="POST",action=post.url+"/delete")
+                button Delete
